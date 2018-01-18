@@ -218,10 +218,10 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         let constraint = NSLayoutConstraint(item: optionsTableView,
                                             attribute: .height,
                                             relatedBy: .equal,
-                                            toItem: nil,
+                                            toItem: self.view,
                                             attribute: .height,
-                                            multiplier: 1,
-                                            constant: 220)
+                                            multiplier: 0.7,
+                                            constant: 0)
         constraint.isActive = true
     }
     

@@ -85,7 +85,10 @@ class DemoListViewController: UIViewController {
                             class: LineChartFilledViewController.self),
                     ItemDef(title: "Half Pie Chart",
                             subtitle: "This demonstrates how to create a 180 degree PieChart.",
-                            class: HalfPieChartViewController.self)
+                            class: HalfPieChartViewController.self),
+                    ItemDef(title: "Multi Charts",
+                            subtitle: "This demonstrates how to create a multiple charts as per EDT logic.",
+                            class: MultiChartViewController.self)
     ]
     
     override func viewDidLoad() {
@@ -93,7 +96,6 @@ class DemoListViewController: UIViewController {
 
         self.title = "Charts Demonstration"
         self.tableView.rowHeight = 70
-        //FIXME: Add TimeLineChart
         
     }
 }
