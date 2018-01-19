@@ -16,7 +16,7 @@ public var screenWidth: CGFloat {
 
 // Screen height.
 public var screenHeight: CGFloat {
-    return UIScreen.main.bounds.height
+    return UIScreen.main.bounds.height - UIApplication.shared.statusBarFrame.height
 }
 
 class MultiChartViewController: DemoBaseViewController {
@@ -28,11 +28,18 @@ class MultiChartViewController: DemoBaseViewController {
     var columnsTextField: UITextField!
     var submitButton: UIButton!
     var chartScrollView: UIScrollView!
+    var effectiveScreenHeight: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.title = "Multiple Chart Rows"
+        
+        if let navBarHeight = self.navigationController?.navigationBar.frame.size.height {
+            effectiveScreenHeight = screenHeight - navBarHeight
+        } else {
+            effectiveScreenHeight = screenHeight
+        }
         
         rowsTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         rowsTextField.backgroundColor = UIColor.lightGray
@@ -45,9 +52,9 @@ class MultiChartViewController: DemoBaseViewController {
         submitButton.setTitleColor(UIColor.blue, for: .normal)
         submitButton.addTarget(self, action:#selector(submitButtonTapped(sender:)), for: .touchUpInside)
         
-        chartScrollView = UIScrollView(frame: CGRect(x: 0, y: 50, width: screenWidth, height: screenHeight - 50))
+        chartScrollView = UIScrollView(frame: CGRect(x: 0, y: 50, width: screenWidth, height: effectiveScreenHeight - 50))
         chartScrollView.backgroundColor = UIColor.clear
-        chartScrollView.contentSize = CGSize(width: screenWidth*2, height: chartScrollView.frame.size.height)
+        chartScrollView.contentSize = CGSize(width: chartScrollView.frame.size.width*2, height: chartScrollView.frame.size.height)
         
         self.view.addSubview(rowsTextField)
         self.view.addSubview(columnsTextField)
@@ -69,8 +76,8 @@ class MultiChartViewController: DemoBaseViewController {
         
         var yCoordinate:CGFloat = 0
         var xCoordinate:CGFloat = 0
-        let chartWidth = screenWidth*2/CGFloat(numberOfColumns) - 100
-        let chartHeight = screenHeight/CGFloat(numberOfRows) - 150
+        let chartWidth = chartScrollView.frame.size.width*2/CGFloat(numberOfColumns)
+        let chartHeight = chartScrollView.frame.size.height/CGFloat(numberOfRows)
         
         for horizontalArray in arrayOfChartsVertical {
             for chartViewItem in horizontalArray {
@@ -78,10 +85,10 @@ class MultiChartViewController: DemoBaseViewController {
                 chartViewItem.frame = CGRect(x: xCoordinate, y: yCoordinate, width: chartWidth, height: chartHeight)
                 setupChart(chartViewItem)
                 updateChartData(chartViewItem)
-                xCoordinate += chartWidth + 100
+                xCoordinate += chartWidth
             }
             xCoordinate = 0
-            yCoordinate += chartHeight + 10
+            yCoordinate += chartHeight
         }
     }
     

@@ -135,7 +135,7 @@ class BarChartViewController: DemoBaseViewController {
             chartView.data = data
         }
         
-//        chartView.setNeedsDisplay()
+        chartView.setNeedsDisplay()
     }
     
     override func optionTapped(_ option: Option) {
